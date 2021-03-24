@@ -1,25 +1,21 @@
 import React from 'react';
+import * as types from './../../constants';
+import { useDispatch } from 'react-redux';
 import styled from 'styled-components';
 import theme from './../../styled-components/main';
+import trash from './../../assets/trash.svg';
+import lines from './../../assets/lines.svg';
 import { Draggable } from 'react-beautiful-dnd';
 const ImageContainer = styled.div`
   ${(pros) => theme.flexMixin('row', 'space-around', 'center')}
   padding:2rem;
-  height: 100px;
+  height: 70px;
   margin-bottom: 1.5rem;
   background: white;
   width: 250px;
   border-radius: 1rem;
   box-shadow: 0 4px 10px rgba(0, 0, 252, 0.1);
   div {
-    img {
-      background: rgb(70, 168, 248);
-      height: 50px;
-      width: 50px;
-      border-radius: 50%;
-      object-fit: scale-down;
-      box-shadow: inset 5px 5px 10px rgb(70, 168, 248);
-    }
     strong {
       font-sise: 1.5rem;
     }
@@ -32,7 +28,29 @@ const ImageContainer = styled.div`
     }
   }
 `;
-function ImageCard({ name, src, username, role, id, i }) {
+const Profile = styled.div`
+  img {
+    background: white;
+    height: 35px;
+    width: 35px;
+    border: 2px solid rgba(0, 0, 250, 0.1);
+    border-radius: 50%;
+    object-fit: scale-down;
+  }
+`;
+const Delete = styled.div`
+  ${(pros) => theme.flexMixin('row', 'center', 'center')}
+  height: 25px;
+  width: 25px;
+  :hover {
+    background: whitesmoke;
+    border-radius: 50%;
+  }
+`;
+
+function ImageCard({ src, id, i }) {
+  const dispatch = useDispatch();
+
   return (
     <Draggable draggableId={`draggable-${id}`} key={id} index={i}>
       {(provided, snapshot) => (
@@ -45,21 +63,26 @@ function ImageCard({ name, src, username, role, id, i }) {
           }}
         >
           <div>
-            <div
-              style={{ height: '30px', width: '30px' }}
+            <img
+              src={lines}
+              style={{ height: '15px', width: '15px' }}
               {...provided.dragHandleProps}
-            >
-              #
-            </div>
+              alt='menu'
+            />
           </div>
-          <div>
+          <Profile>
             <img src={src} alt='pic' />
-          </div>
-          <div>
-            <strong>{name}</strong>
-            <p>{role}</p>
-            <button>delete</button>
-          </div>
+          </Profile>
+
+          <Delete
+            onClick={() => dispatch({ type: types.REMOVE_POST_REQUEST, id })}
+          >
+            <img
+              src={trash}
+              style={{ height: '15px', width: '15px' }}
+              alt='trash'
+            />
+          </Delete>
         </ImageContainer>
       )}
     </Draggable>

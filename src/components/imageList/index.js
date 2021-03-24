@@ -36,14 +36,7 @@ const ImageList = ({ images }) => {
         {(provided, _) => (
           <Fragment ref={provided.innerRef} {...provided.droppableProps}>
             {posts.map((card, i) => (
-              <ImageCard
-                i={i}
-                id={card.id}
-                name={card.name}
-                role={card.role}
-                src={card.src}
-                username={card.username}
-              />
+              <ImageCard i={i} id={card.id} src={card.src} />
             ))}
             {provided.placeholder}
           </Fragment>

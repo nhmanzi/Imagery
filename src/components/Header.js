@@ -3,7 +3,8 @@ import styled from 'styled-components';
 const Headerstyle = styled.div`
   ${(props) => props.theme.flexMixin('row', 'space-between', 'center')}
   height:3rem;
-  position: absolute;
+  position: fixed;
+  z-index: 1;
   top: 0;
   left: 0;
   padding: 0.75rem;
@@ -17,8 +18,9 @@ const Logo = styled.div`
 `;
 
 const Title = styled.p`
-  font-size: 2em;
-  font-weight: 400;
+  font-size: 1.5em;
+  font-weight: 900;
+  color: var(--clr-darkblue-200);
 `;
 const Mode = styled.div`
   background: var(--clr-white-100);
@@ -34,7 +36,7 @@ export const Header = (props) => {
   return (
     <Headerstyle>
       <Logo>
-        <Title>Imagery</Title>
+        <Title>IMAGERY</Title>
       </Logo>
       <Mode>
         <Check>click me</Check>

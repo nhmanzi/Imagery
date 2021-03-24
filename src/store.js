@@ -1,6 +1,5 @@
 import { createStore, applyMiddleware, compose } from 'redux';
 import createSagaMiddleware from 'redux-saga';
-import cookie from 'js-cookie';
 import rootReducer from './reducer/rootReducer';
 import rootSaga from './sagas';
 import { getPost } from './reducer/PostReducer/index';

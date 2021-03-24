@@ -7,7 +7,7 @@ import styled from 'styled-components';
 import theme from '../styled-components/main';
 import { v4 as uuidv4 } from 'uuid';
 import { useDropzone } from 'react-dropzone';
-import { set } from 'js-cookie';
+import close from './../assets/close.svg';
 // ${(pros) => theme.flexMixin('row', 'space-around', 'center')}
 const Container = styled.div`
   height: calc(100vh-3rem);
@@ -22,6 +22,7 @@ const UploadCard = styled.div`
   height: 18rem;
   position: relative;
   margin: 0.5rem;
+  position: relative;
   background: white;
   width: 100%;
   border-radius: 0.4rem;
@@ -46,16 +47,7 @@ const DropBox = styled.div`
     }
   }
 `;
-const Label = styled.label`
-  ${(pros) => theme.flexMixin('column', 'space-around', 'center')}
-`;
 
-const Image = styled.img`
-  height: 50px;
-  width: 50px;
-  border-radius: 50%;
-  object-fit: scale-down;
-`;
 const AvatarHolder = styled.div`
   width: 100%;
   height: 100%;
@@ -73,11 +65,28 @@ const Button = styled.button`
   ${(pros) => theme.flexMixin('row', 'space-around', 'center')}
   padding:.5rem;
   height: 2rem;
+  border: none;
+  border-radius: 5px;
   color: var(--clr-white-400);
   min-width: 7em;
-  background: var(--clr-primary-100);
+  background: #007bff;
   :hover {
     background: var(--clr-primary-400);
+  }
+`;
+const FormButton = styled.button`
+  ${(pros) => theme.flexMixin('row', 'space-around', 'center')}
+  padding:1.5rem 1rem;
+  height: 1rem;
+  border: none;
+  font-size: 1.5rem;
+  margin: 2rem auto;
+  // border-radius: 5px;
+  min-width: 50%;
+  background: white;
+  :hover {
+    background: var(--clr-primary-100);
+    color: var(--clr-white-400);
   }
 `;
 const Heading = styled.div`
@@ -92,74 +101,116 @@ const Footer = styled.div`
   height: 3.5rem;
   width: 100%;
 `;
+const ImageWrapper = styled.div`
+  display: grid;
+  grid-gap: 2em;
+  grid-template-columns: repeat(auto-fit, 50px);
+  width: 100%;
+  padding: 2rem;
+`;
+const DropItem = styled.div`
+  ${(pros) => theme.flexMixin('row', 'center', 'center')}
+  border-radius:10px;
+  width: 70px;
+  height: 70px;
+  box-shadow: 0 4px 10px rgba(0, 0, 252, 0.1);
+  img {
+    height: 45px;
+    width: 45px;
+    object-fit: scale-down;
+  }
+`;
+const Close = styled.img`
+  position: absolute;
+  top: 20px;
+  right: 30px;
+  height: 15px;
+  width: 15px;
+  :hover {
+    border-radius: 50%;
+    background: whitesmoke;
+  }
+`;
 export const Card = (props) => {
-  const [image, setImage] = useState([]);
+  const [showform, setShowform] = useState(true);
+  const [image] = useState([]);
   const [files, setFiles] = useState([]);
-  const [uploaded, setUploaded] = useState(false);
+
   const dispatch = useDispatch();
-  const onDrop = useCallback((acceptedFiles) => {
-    acceptedFiles.forEach((file) => {
-      setFiles(
-        acceptedFiles.map((file) =>
-          Object.assign(file, { preview: URL.createObjectURL(file) })
-        )
-      );
-      const reader = new FileReader();
-      reader.onload = (e) => {
-        const binaryStr = e.target.result;
-        image.push({ buffer: binaryStr });
-      };
-      reader.readAsDataURL(file);
-    });
-  }, []);
+  const onDrop = useCallback(
+    (acceptedFiles) => {
+      acceptedFiles.forEach((file) => {
+        setFiles(
+          acceptedFiles.map((file) =>
+            Object.assign(file, { preview: URL.createObjectURL(file) })
+          )
+        );
+        const reader = new FileReader();
+        reader.onload = (e) => {
+          const binaryStr = e.target.result;
+          image.push({ buffer: binaryStr });
+        };
+        reader.readAsDataURL(file);
+      });
+    },
+    [image]
+  );
 
   const { getRootProps, getInputProps } = useDropzone({ onDrop });
-  console.log('=>>>>>>>', image);
+  console.log('=>>>>>>>', files);
 
   const images = files.map((file) => (
-    <div key={file.name}>
-      <div>
-        <img src={file.preview} style={{ width: '50px' }} alt='haha' />
-      </div>
-    </div>
+    <DropItem key={file.name}>
+      <img src={file.preview} style={{ width: '50px' }} alt='haha' />
+    </DropItem>
   ));
 
   const handleAdd = () => {
-    image.map((e) =>
-      dispatch({
-        type: types.ADD_POST_REQUEST,
-        data: {
-          id: uuidv4(),
-          src: e.buffer
-        }
-      })
-    );
+    if (image) {
+      image.map((e) =>
+        dispatch({
+          type: types.ADD_POST_REQUEST,
+          data: {
+            id: uuidv4(),
+            src: e.buffer
+          }
+        })
+      );
+    }
 
     // setFiles([]);
     // setImage([]);
   };
   return (
     <Container>
-      <UploadWrapper>
-        <UploadCard>
-          <Heading>
-            <Tittle>Image Uploader</Tittle>
-          </Heading>
-          <DropBox {...getRootProps()}>
-            <input {...getInputProps()} />
-            {images}
-            {files.length < 1 && (
-              <Placeholder>
-                <img src={folder} draggable='true' alt='placeholder' />
-                <div>click or drag for upload</div>
-              </Placeholder>
-            )}
-          </DropBox>
-          <Footer>
-            <Button onClick={handleAdd}>Import</Button>
-          </Footer>
-        </UploadCard>
-      </UploadWrapper>
+      {showform && (
+        <UploadWrapper>
+          <UploadCard>
+            <Close src={close} onClick={() => setShowform(false)} />
+            <Heading>
+              <Tittle>IMAGE UPLOADER</Tittle>
+            </Heading>
+            <DropBox {...getRootProps()}>
+              <input {...getInputProps()} />
+              {files.length > 0 && <ImageWrapper> {images}</ImageWrapper>}
+              {files.length < 1 && (
+                <Placeholder>
+                  <img src={folder} draggable='true' alt='placeholder' />
+                  <div>click or drag for upload</div>
+                </Placeholder>
+              )}
+            </DropBox>
+            <Footer>
+              <Button onClick={handleAdd}>Import</Button>
+            </Footer>
+          </UploadCard>
+        </UploadWrapper>
+      )}
+      {!showform && (
+        <FormButton onClick={() => setShowform(true)}>
+          UPLOAD PICTURES
+        </FormButton>
+      )}
       <AvatarHolder>
         <ImageList />
       </AvatarHolder>

@@ -1,13 +1,4 @@
 import * as types from '../../constants';
-import { v4 as uuidv4 } from 'uuid';
-import cookie from 'js-cookie';
-const initialState = {
-  id: uuidv4(),
-  name: 'LOLO',
-  src: 'HhHhH',
-  username: 'kingalo',
-  role: 'UX designer'
-};
 
 const PostReducer = (state = { posts: [] }, action) => {
   const { type, payload } = action;
@@ -23,8 +14,13 @@ const PostReducer = (state = { posts: [] }, action) => {
       savePost([...state.posts]);
       return { ...state };
 
-    case 'REMOVE_IMG':
-    // return state.filter((e) => e.id != payload.id);
+    case types.REMOVE_POST:
+      savePost([...state.posts.filter((e) => e.id !== payload)]);
+      return {
+        ...state,
+        posts: [...state.posts.filter((e) => e.id !== payload)]
+      };
+
     default:
       return state;
   }
