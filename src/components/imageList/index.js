@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import * as types from './../../constants';
+import theme from '../../styled-components/main';
 import ImageCard from './ImageCard';
 import styled from 'styled-components';
 import { useSelector, useDispatch } from 'react-redux';
@@ -9,6 +10,9 @@ const Fragment = styled.div`
   // display: grid;
   // grid-template-columns: repeat(2, 1fr);
   // grid-gap: 1rem;
+  @media (max-width: 800px) {
+    ${(pros) => theme.flexMixin('column', 'space-around', 'center')}
+  }
 `;
 const ImageList = ({ images }) => {
   const dispatch = useDispatch();
@@ -36,14 +40,7 @@ const ImageList = ({ images }) => {
         {(provided, _) => (
           <Fragment ref={provided.innerRef} {...provided.droppableProps}>
             {posts.map((card, i) => (
-              <ImageCard
-                i={i}
-                id={card.id}
-                name={card.name}
-                role={card.role}
-                src={card.src}
-                username={card.username}
-              />
+              <ImageCard i={i} id={card.id} src={card.src} />
             ))}
             {provided.placeholder}
           </Fragment>
