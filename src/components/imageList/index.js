@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import * as types from './../../constants';
+import theme from '../../styled-components/main';
 import ImageCard from './ImageCard';
 import styled from 'styled-components';
 import { useSelector, useDispatch } from 'react-redux';
@@ -9,6 +10,9 @@ const Fragment = styled.div`
   // display: grid;
   // grid-template-columns: repeat(2, 1fr);
   // grid-gap: 1rem;
+  @media (max-width: 800px) {
+    ${(pros) => theme.flexMixin('column', 'space-around', 'center')}
+  }
 `;
 const ImageList = ({ images }) => {
   const dispatch = useDispatch();

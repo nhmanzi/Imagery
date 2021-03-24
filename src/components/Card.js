@@ -10,11 +10,15 @@ import { useDropzone } from 'react-dropzone';
 import close from './../assets/close.svg';
 // ${(pros) => theme.flexMixin('row', 'space-around', 'center')}
 const Container = styled.div`
-  height: calc(100vh-3rem);
+  height: auto;
   padding: 2.5rem;
   margin-top: 0;
   width: 100%;
   background: #f5f8ff;
+  @media (max-width: 800px) {
+    margin-top: 4rem;
+    padding: 0.5rem;
+  }
 `;
 const UploadCard = styled.div`
   ${(pros) => theme.flexMixin('column', 'center', 'center')}
@@ -27,6 +31,11 @@ const UploadCard = styled.div`
   width: 100%;
   border-radius: 0.4rem;
   box-shadow: 0 4px 10px rgba(0, 0, 252, 0.1);
+  @media (max-width: 800px) {
+    padding: 0.5rem;
+    margin: 0;
+    height: auto;
+  }
 `;
 const Tittle = styled.h3`
   font-weight: black;
@@ -46,6 +55,9 @@ const DropBox = styled.div`
       width: 30px;
     }
   }
+  @media (max-width: 800px) {
+    height: 100px;
+  }
 `;
 
 const AvatarHolder = styled.div`
@@ -56,6 +68,9 @@ const UploadWrapper = styled.div`
   ${(pros) => theme.flexMixin('row', 'center', 'flex-start')}
   width: 100%;
   height: 25%;
+  @media (max-width: 800px) {
+    margin-bottom: 2rem;
+  }
 `;
 const Placeholder = styled.div`
   ${(pros) => theme.flexMixin('column', 'center', 'center')}
@@ -72,6 +87,9 @@ const Button = styled.button`
   background: #007bff;
   :hover {
     background: var(--clr-primary-400);
+  }
+  @media (max-width: 800px) {
+    min-width: 100%;
   }
 `;
 const FormButton = styled.button`
