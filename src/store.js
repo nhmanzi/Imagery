@@ -6,7 +6,6 @@ import { getPost } from './reducer/PostReducer/index';
 // const posts = cookie.getJSON('postLists') || [];
 const posts = getPost() || [];
 const initialState = { postList: { posts } };
-console.log('waneeeeeeezaa', initialState);
 const SagaMiddleware = createSagaMiddleware();
 const composerEnhancer = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 const store = createStore(

@@ -1,3 +1,5 @@
+export const THEME_CHANGER = 'THEME_CHANGER';
+export const THEME_CHANGER_REQUEST = 'THEME_CHANGER_REQUEST';
 export const SHOW_POST = 'SHOW_POST';
 export const SHOW_POST_REQUEST = 'SHOW_POST_REQUEST';
 export const ADD_POST = 'ADD_POST';

@@ -1,8 +1,27 @@
-  @use  './abstracts/colors' as * ; 
-:root{
-   @each $color , $shades  in $colors {
-       @each $shade , $value in $shades{
-           --clr-#{"" + $color}-#{$shade}:#{$value};
-       }
-   } 
-} 
+@use './abstracts/colors' as *;
+:root {
+  @each $color, $shades in $colors {
+    @each $shade, $value in $shades {
+      --clr-#{"" + $color}-#{$shade}: #{$value};
+    }
+  }
+}
+
+.react-switch-bg {
+  background: rgb(50, 78, 205) !important;
+}
+
+.gDQVJ {
+  background: transparent !important;
+  height: auto;
+}
+
+.gpmKyw {
+  background: transparent !important;
+  height: auto;
+}
+
+.bQyVcZ {
+  background: transparent !important;
+  height: auto;
+}

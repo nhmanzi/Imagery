@@ -1,5 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
+import SwitchButton from './switch';
+import { useSelector } from 'react-redux';
 const Headerstyle = styled.div`
   ${(props) => props.theme.flexMixin('row', 'space-between', 'center')}
   height:3rem;
@@ -9,8 +11,10 @@ const Headerstyle = styled.div`
   left: 0;
   padding: 0.75rem;
   width: 100%;
-  background: #f5f8ff;
-  box-shadow: 0 2px 8px rgba(0, 0, 255, 0.2);
+  background: ${(props) =>
+    props.darkmode ? 'var(--clr-darkblue-200)' : '#f5f8ff'};
+  box-shadow: ${(props) =>
+    props.darkmode ? 'none !important ' : ' 0 2px 8px rgba(0, 0, 255, 0.2)'};
 `;
 const Logo = styled.div`
   width: 100px;
@@ -20,26 +24,24 @@ const Logo = styled.div`
 const Title = styled.p`
   font-size: 1.5em;
   font-weight: 900;
-  color: var(--clr-darkblue-200);
+  color: ${(props) =>
+    props.darkmode ? 'var(--clr-white-400)' : 'var(--clr-darkblue-400)'};
 `;
 const Mode = styled.div`
   background: var(--clr-white-100);
   height: auto;
 `;
-const Check = styled.button`
-white-space: nowrap;
-padding:4px
-height:auto;
-padding :5px;
-`;
+
 export const Header = (props) => {
+  const AppTheme = useSelector((state) => state.AppTheme);
+  const { darkMode } = AppTheme;
   return (
-    <Headerstyle>
+    <Headerstyle darkmode={darkMode}>
       <Logo>
-        <Title>IMAGERY</Title>
+        <Title darkmode={darkMode}>IMAGERY</Title>
       </Logo>
       <Mode>
-        <Check>click me</Check>
+        <SwitchButton />
       </Mode>
     </Headerstyle>
   );
