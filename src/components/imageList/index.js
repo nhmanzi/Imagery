@@ -14,7 +14,7 @@ const Fragment = styled.div`
     ${(pros) => theme.flexMixin('column', 'space-around', 'center')}
   }
 `;
-const ImageList = ({ images }) => {
+const ImageList = () => {
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch({ type: types.SHOW_POST_REQUEST });

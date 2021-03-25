@@ -1,20 +1,21 @@
 import React, { useState, useCallback } from 'react';
 import * as types from './../constants';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import ImageList from './../components/imageList';
 import folder from './../assets/folder.svg';
 import styled from 'styled-components';
 import theme from '../styled-components/main';
 import { v4 as uuidv4 } from 'uuid';
 import { useDropzone } from 'react-dropzone';
-import close from './../assets/close.svg';
+import Close from './../assets/close';
 // ${(pros) => theme.flexMixin('row', 'space-around', 'center')}
 const Container = styled.div`
   height: auto;
   padding: 2.5rem;
   margin-top: 0;
   width: 100%;
-  background: #f5f8ff;
+  background: ${(props) =>
+    props.darkMode ? 'var(--clr-darkblue-400)' : '#f5f8ff'};
   @media (max-width: 800px) {
     margin-top: 4rem;
     padding: 0.5rem;
@@ -27,10 +28,12 @@ const UploadCard = styled.div`
   position: relative;
   margin: 0.5rem;
   position: relative;
-  background: white;
+  background: ${(props) =>
+    props.darkMode ? 'var(--clr-darkblue-100)' : '#fcfdff'};
   width: 100%;
   border-radius: 0.4rem;
-  box-shadow: 0 4px 10px rgba(0, 0, 252, 0.1);
+  box-shadow: ${(props) =>
+    props.darkMode ? 'none !important' : '0 4px 10px rgba(0, 0, 252, 0.1)'};
   @media (max-width: 800px) {
     padding: 0.5rem;
     margin: 0;
@@ -39,15 +42,19 @@ const UploadCard = styled.div`
 `;
 const Tittle = styled.h3`
   font-weight: black;
-  color: #111;
+  color: ${(props) => (props.darkMode ? 'var(--clr-white-300)' : '#111')};
 `;
 const DropBox = styled.div`
   ${(pros) => theme.flexMixin('row', 'space-around', 'center')}
   height: 100%;
   width: 100%;
   margin-bottom: 0.5em;
-  border: 2px dashed rgba(0, 0, 255, 0.2);
-  background: #fcfdff;
+  border: ${(props) =>
+    props.darkMode
+      ? '2px dashed rgba(255, 255, 255, 0.5)'
+      : '2px dashed rgba(0, 0, 255, 0.2)'};
+  background: ${(props) =>
+    props.darkMode ? 'var(--clr-darkblue-100)' : '#fcfdff'};
   border-radius: 1rem;
   div {
     img {
@@ -68,12 +75,19 @@ const UploadWrapper = styled.div`
   ${(pros) => theme.flexMixin('row', 'center', 'flex-start')}
   width: 100%;
   height: 25%;
+  background: ${(props) =>
+    props.darkMode ? 'var(--clr-darkblue-400)' : '#f5f8ff'};
   @media (max-width: 800px) {
     margin-bottom: 2rem;
   }
 `;
 const Placeholder = styled.div`
   ${(pros) => theme.flexMixin('column', 'center', 'center')}
+  background: ${(props) =>
+    props.darkMode ? 'var(--clr-darkblue-100)' : 'trasparent'};
+  div {
+    color: ${(props) => (props.darkMode ? 'var(--clr-white-100)' : '#111')};
+  }
 `;
 
 const Button = styled.button`
@@ -97,11 +111,12 @@ const FormButton = styled.button`
   padding:1.5rem 1rem;
   height: 1rem;
   border: none;
+  color: ${(props) => (props.darkMode ? 'var(--clr-white-100)' : '#111')};
   font-size: 1.5rem;
   margin: 2rem auto;
-  // border-radius: 5px;
   min-width: 50%;
-  background: white;
+  background: ${(props) =>
+    props.darkMode ? 'var(--clr-darkblue-100)' : 'white'};
   :hover {
     background: var(--clr-primary-100);
     color: var(--clr-white-400);
@@ -109,7 +124,9 @@ const FormButton = styled.button`
 `;
 const Heading = styled.div`
   ${(pros) => theme.flexMixin('row', 'flex-start', 'center')}
-  padding:1em 0;
+  background: ${(props) =>
+    props.darkMode ? 'var(--clr-darkblue-100)' : 'white'};
+  padding: 1em 0;
   height: 3.5rem;
   width: 100%;
 `;
@@ -118,6 +135,8 @@ const Footer = styled.div`
   padding:1em 0;
   height: 3.5rem;
   width: 100%;
+  background: ${(props) =>
+    props.darkMode ? 'var(--clr-darkblue-100)' : 'trasparent'};
 `;
 const ImageWrapper = styled.div`
   display: grid;
@@ -131,29 +150,36 @@ const DropItem = styled.div`
   border-radius:10px;
   width: 70px;
   height: 70px;
-  box-shadow: 0 4px 10px rgba(0, 0, 252, 0.1);
+
+  background: white;
+
+  box-shadow: ${(props) =>
+    props.darkmode ? 'none !important ' : ' 0 4px 10px rgba(0, 0, 252, 0.1)'};
   img {
     height: 45px;
     width: 45px;
     object-fit: scale-down;
   }
 `;
-const Close = styled.img`
+const CloseModal = styled.div`
+  ${(pros) => theme.flexMixin('row', 'center', 'center')}
   position: absolute;
   top: 20px;
   right: 30px;
-  height: 15px;
-  width: 15px;
+  height: 25px;
+  width: 25px;
   :hover {
     border-radius: 50%;
-    background: whitesmoke;
+    background: ${(props) =>
+      props.darkMode ? 'var(--clr-darkblue-200)' : 'whitesmoke'};
   }
 `;
 export const Card = (props) => {
   const [showform, setShowform] = useState(true);
   const [image] = useState([]);
   const [files, setFiles] = useState([]);
-
+  const AppTheme = useSelector((state) => state.AppTheme);
+  const { darkMode } = AppTheme;
   const dispatch = useDispatch();
   const onDrop = useCallback(
     (acceptedFiles) => {
@@ -175,7 +201,6 @@ export const Card = (props) => {
   );
 
   const { getRootProps, getInputProps } = useDropzone({ onDrop });
-  console.log('=>>>>>>>', files);
 
   const images = files.map((file) => (
     <DropItem key={file.name}>
@@ -200,32 +225,36 @@ export const Card = (props) => {
     // setImage([]);
   };
   return (
-    <Container>
+    <Container darkMode={darkMode}>
       {showform && (
-        <UploadWrapper>
-          <UploadCard>
-            <Close src={close} onClick={() => setShowform(false)} />
-            <Heading>
-              <Tittle>IMAGE UPLOADER</Tittle>
+        <UploadWrapper darkMode={darkMode}>
+          <UploadCard darkMode={darkMode}>
+            <CloseModal darkMode={darkMode} onClick={() => setShowform(false)}>
+              <Close darkmode={darkMode} />
+            </CloseModal>
+            <Heading darkMode={darkMode}>
+              <Tittle darkMode={darkMode}>IMAGE UPLOADER</Tittle>
             </Heading>
-            <DropBox {...getRootProps()}>
+            <DropBox {...getRootProps()} darkMode={darkMode}>
               <input {...getInputProps()} />
               {files.length > 0 && <ImageWrapper> {images}</ImageWrapper>}
               {files.length < 1 && (
-                <Placeholder>
+                <Placeholder darkMode={darkMode}>
                   <img src={folder} draggable='true' alt='placeholder' />
                   <div>click or drag for upload</div>
                 </Placeholder>
               )}
             </DropBox>
-            <Footer>
-              <Button onClick={handleAdd}>Import</Button>
+            <Footer darkMode={darkMode}>
+              <Button onClick={handleAdd} darkMode={darkMode}>
+                Import
+              </Button>
             </Footer>
           </UploadCard>
         </UploadWrapper>
       )}
       {!showform && (
-        <FormButton onClick={() => setShowform(true)}>
+        <FormButton darkMode={darkMode} onClick={() => setShowform(true)}>
           UPLOAD PICTURES
         </FormButton>
       )}
