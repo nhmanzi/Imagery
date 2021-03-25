@@ -7,9 +7,10 @@ import { useSelector } from 'react-redux';
 
 const Container = styled.body`
   height: 200vh;
-  padding: 2rem 0rem;
+  padding: 2rem 1rem;
   position: relative;
   width: 100%;
+  overflow: hidden;
   background: ${(props) =>
     props.darkmode ? 'var(--clr-darkblue-400)' : '#f5f8ff'};
 `;
