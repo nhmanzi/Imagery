@@ -17,6 +17,7 @@ class SwitchButton extends Component {
   render() {
     return (
       <Switch
+        className='react-switch'
         onChange={this.handleChange}
         checked={this.state.checked}
         offHandleColor='var(--clr-dark-100)'

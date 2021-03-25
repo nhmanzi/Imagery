@@ -9,7 +9,7 @@ const Headerstyle = styled.div`
   z-index: 1;
   top: 0;
   left: 0;
-  padding: 0.75rem;
+  padding: 0.75rem 1rem;
   width: 100%;
   background: ${(props) =>
     props.darkmode ? 'var(--clr-darkblue-200)' : '#f5f8ff'};
@@ -28,7 +28,6 @@ const Title = styled.p`
     props.darkmode ? 'var(--clr-white-400)' : 'var(--clr-darkblue-400)'};
 `;
 const Mode = styled.div`
-  background: var(--clr-white-100);
   height: auto;
 `;
 
