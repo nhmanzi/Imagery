@@ -37,11 +37,8 @@ const Delete = styled.div`
   width: 25px;
   :hover {
     background: ${(props) =>
-      props.darkMode ? 'var(--clr-darkblue-300)' : 'whitesmoke'};
+      props.darkMode ? 'var(--clr-primary-100)' : 'whitesmoke'};
     border-radius: 50%;
-    img {
-      color: white;
-    }
   }
 `;
 
@@ -69,6 +66,7 @@ function ImageCard({ src, id, i }) {
           </Profile>
 
           <Delete
+            darkMode={darkMode}
             onClick={() => dispatch({ type: types.REMOVE_POST_REQUEST, id })}
           >
             <Trash darkmode={darkMode} />
