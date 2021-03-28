@@ -176,7 +176,7 @@ const CloseModal = styled.div`
 `;
 export const Card = (props) => {
   const [showform, setShowform] = useState(true);
-  const [image] = useState([]);
+  const [image, setImage] = useState([]);
   const [files, setFiles] = useState([]);
   const AppTheme = useSelector((state) => state.AppTheme);
   const { darkMode } = AppTheme;
@@ -219,10 +219,9 @@ export const Card = (props) => {
           }
         })
       );
+      setFiles([]);
+      setImage([]);
     }
-
-    // setFiles([]);
-    // setImage([]);
   };
   return (
     <Container darkMode={darkMode}>
