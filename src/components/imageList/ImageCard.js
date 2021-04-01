@@ -15,7 +15,8 @@ const ImageContainer = styled.div`
     props.darkMode ? 'var(--clr-darkblue-100)' : 'white'};
   width: 250px;
   border-radius: 1rem;
-  box-shadow: 0 4px 10px rgba(0, 0, 252, 0.1);
+  box-shadow: ${(props) =>
+    props.darkMode ? 'none' : '0 4px 10px rgba(0, 0, 252, 0.1)'};
   }
 `;
 const Profile = styled.div`

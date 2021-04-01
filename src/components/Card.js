@@ -147,18 +147,16 @@ const ImageWrapper = styled.div`
 `;
 const DropItem = styled.div`
   ${(pros) => theme.flexMixin('row', 'center', 'center')}
-  border-radius:10px;
+  border-radius:5px;
   width: 70px;
   height: 70px;
-
-  background: white;
-
+  background: ${(props) => (props.darkmode ? 'hsl(0,0%,20%)' : 'white')};
   box-shadow: ${(props) =>
     props.darkmode ? 'none !important ' : ' 0 4px 10px rgba(0, 0, 252, 0.1)'};
   img {
-    height: 45px;
-    width: 45px;
-    object-fit: scale-down;
+    height: 70% !important;
+    width: 70% !important;
+    object-fit: cover;
   }
 `;
 const CloseModal = styled.div`
@@ -203,8 +201,8 @@ export const Card = (props) => {
   const { getRootProps, getInputProps } = useDropzone({ onDrop });
 
   const images = files.map((file) => (
-    <DropItem key={file.name}>
-      <img src={file.preview} style={{ width: '50px' }} alt='haha' />
+    <DropItem darkmode={darkMode} key={file.name}>
+      <img src={file.preview} alt={file.name} />
     </DropItem>
   ));
 
